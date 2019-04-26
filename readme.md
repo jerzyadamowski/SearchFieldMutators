@@ -1,4 +1,5 @@
-#Search Field Mutators - library to support mixing repository data with dynamic filter rules
+# Search Field Mutators - library to support mixing r
+epository data with dynamic filter rules
 
 Idea was borrow long time ago from https://gist.github.com/Grinderofl/2767155
 
@@ -119,31 +120,31 @@ Only Joe Fullfill our requirements.
 
 Lets change filter data
 ```C#
-            SearchFieldVM modelSearch = new SearchFieldVM()
-            {
-                InputText = null,
-                MinAge = 17,
-                MaxAge = 19
-            };
+SearchFieldVM modelSearch = new SearchFieldVM()
+{
+    InputText = null,
+    MinAge = 17,
+    MaxAge = 19
+};
 
-            var collection = userRepository.AsQueryable();
-            collection = collection.FilterMutator<User, SearchFieldVM>(searchRules, modelSearch);
+var collection = userRepository.AsQueryable();
+collection = collection.FilterMutator<User, SearchFieldVM>(searchRules, modelSearch);
 ```
 
 In this case with same rules:
 ```C#
-    new User()
-    {
-        Name = "Joe",
-        Age = 18,
-        Department = "HR"
-    },
-    new User()
-    {
-        Name = "Nicole",
-        Age = 18,
-        Department = "Finance"
-    },
+new User()
+{
+    Name = "Joe",
+    Age = 18,
+    Department = "HR"
+},
+new User()
+{
+    Name = "Nicole",
+    Age = 18,
+    Department = "Finance"
+},
 ```
 
 Winner is Joe and Nicole
