@@ -18,29 +18,6 @@ namespace SFM.tests
         [Fact]
         public void Test1()
         {
-            List<User> userRepository = new List<User>()
-            {
-                new User()
-                {
-                    Name = "Joe",
-                    Age = 18,
-                    Department = "HR"
-                },
-                new User()
-                {
-                    Name = "Jay",
-                    Age = 21,
-                    Department = "Administration"
-                },
-                new User()
-                {
-                    Name = "Nicole",
-                    Age = 18,
-                    Department = "Finance"
-                },
-            };
-
-
             var searchRules = new SearchFieldMutators<User, SearchFieldVM>();
             searchRules.Add(
                 test => !string.IsNullOrWhiteSpace(test.InputText),
@@ -63,14 +40,63 @@ namespace SFM.tests
 
             var collection = userRepository.AsQueryable();
             collection = collection.FilterMutator<User, SearchFieldVM>(searchRules, modelSearch);
-
             Assert.Equal(1, collection.Count());
+        }
+
+        [Fact]
+        public void Test2()
+        {
+            var searchRules = new SearchFieldMutators<User, SearchFieldVM>();
+            searchRules.Add(
+                test => !string.IsNullOrWhiteSpace(test.InputText),
+                (query, search) => query.Where(x => x.Name.Contains(search.InputText)));
+
+            searchRules.Add(
+                test => test.MinAge > 0,
+                (query, search) => query.Where(x => x.Age >= search.MinAge));
+
+            searchRules.Add(
+                test => test.MaxAge > 0,
+                (query, search) => query.Where(x => x.Age <= search.MaxAge));
+
+            SearchFieldVM modelSearch = new SearchFieldVM()
+            {
+                InputText = null,
+                MinAge = 17,
+                MaxAge = 19
+            };
+
+            var collection = userRepository.AsQueryable();
+            collection = collection.FilterMutator<User, SearchFieldVM>(searchRules, modelSearch);
+            Assert.Equal(2, collection.Count());
         }
 
         private void Init()
         {
 
         }
+
+        private List<User> userRepository = new List<User>()
+        {
+            new User()
+            {
+                Name = "Joe",
+                Age = 18,
+                Department = "HR"
+            },
+            new User()
+            {
+                Name = "Jay",
+                Age = 21,
+                Department = "Administration"
+            },
+            new User()
+            {
+                Name = "Nicole",
+                Age = 18,
+                Department = "Finance"
+            },
+        };
     }
 
     public class User
