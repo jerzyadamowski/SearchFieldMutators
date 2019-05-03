@@ -1,13 +1,12 @@
-# Search Field Mutators - library to support mixing r
-epository data with dynamic filter rules
+# Search Field Mutators - library to support mixing repository data with dynamic filter rules
 
 Idea was borrow long time ago from https://gist.github.com/Grinderofl/2767155
 
-Here we fix all error and we were extensively use this feature in our projects.
+Here we fix all error and we were extensively using this soultion in our projects.
 
 ## How does it work?
 
-First you to to create your repository or just create simple collection.
+First you to have to create your repository or just create simple collection.
 Our lib support IQueryable interface and all your data filters you can do on expresions rather than real data. This save you a lot of performance and remove unnecessary sql calls.
 
 ```C#
